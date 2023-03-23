@@ -327,15 +327,20 @@ function _extract_reverse_pass(
 ) where {T}
     for i in f.dependent_subexpressions
         d.subexpression_reverse_values[i] = 0.0
+    end    
+    if eltype(d.subexpression_reverse_values) == T 
+      subexpression_reverse_values = d.subexpression_reverse_values 
+    else
+      subexpression_reverse_values = (T).(d.subexpression_reverse_values)
     end
-    _extract_reverse_pass_inner(g, f, d.subexpression_reverse_values, 1.0)
+    _extract_reverse_pass_inner(g, f, subexpression_reverse_values, T(1.0))
     for i in length(f.dependent_subexpressions):-1:1
         k = f.dependent_subexpressions[i]
         _extract_reverse_pass_inner(
             g,
             d.subexpressions[k],
-            d.subexpression_reverse_values,
-            d.subexpression_reverse_values[k],
+            subexpression_reverse_values,
+            subexpression_reverse_values[k],
         )
     end
     return
