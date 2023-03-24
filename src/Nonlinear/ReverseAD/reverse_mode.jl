@@ -347,9 +347,9 @@ function _extract_reverse_pass_inner(
     #     This Union depends upon _FunctionStorage and _SubexpressionStorage
     #     having similarly named fields.
     f::Union{_FunctionStorage,_SubexpressionStorage},
-    subexpressions::AbstractVector{T},
-    scale::T,
-) where {T}
+    subexpressions::AbstractVector{Y},
+    scale::Z,
+) where {T,Y,Z}
     @assert length(f.reverse_storage) >= length(f.nodes)
     for (k, node) in enumerate(f.nodes)
         if node.type == Nonlinear.NODE_VARIABLE
